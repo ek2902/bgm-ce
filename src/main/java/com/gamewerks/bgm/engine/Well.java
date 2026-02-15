@@ -9,7 +9,7 @@ import com.gamewerks.bgm.util.Position;
 /**
  * The well is a two-dimensional grid, filled in by pieces that have been
  * locked into place. Row/col (0, 0) corresponds to the bottom-left corner
- * of the well.
+ * of the well, rather than the top-left.
  */
 public class Well {
     private boolean[][] grid;
