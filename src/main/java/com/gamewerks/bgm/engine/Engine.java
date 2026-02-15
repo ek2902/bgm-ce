@@ -16,6 +16,7 @@ public class Engine {
     private GameAttributes attrs;
     private InputState input;
 
+    private int lineClearCounter;
     private int lockCounter;
     private int entryCounter;
     private boolean lineWasCleared;
@@ -25,6 +26,7 @@ public class Engine {
     /** Constructs a new Blocky game engine with default attributes. */
     public Engine() {
         board = new Well();
+        lineClearCounter = 0;
         lockCounter = 0;
         entryCounter = 0;
         lineWasCleared = false;
@@ -42,13 +44,17 @@ public class Engine {
      */
     private void trySpawnBlock() {
         if (activePiece == null) {
-            entryCounter += 1;
-            activePiece = new Piece(PieceKind.I,
-                new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
-            entryCounter = 0;
-            lineWasCleared = false;
-            if (board.collides(activePiece)) {
-                System.exit(0);
+            if (entryCounter < attrs.are() || lineClearCounter > 0) {
+                entryCounter += 1;
+                if (lineClearCounter > 0) {lineClearCounter--;}
+            } else {
+                activePiece = new Piece(PieceKind.I,
+                        new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
+                entryCounter = 0;
+                lineWasCleared = false;
+                if (board.collides(activePiece)) {
+                    System.exit(0);
+                }
             }
         }
     }
@@ -56,6 +62,7 @@ public class Engine {
     /**
      * Try to move the active piece to the new position, resetting if the
      * movement would cause a collision.
+     * 
      * @param newPos the candidate position
      */
     private void tryMovePiece(Position newPos) {
@@ -173,6 +180,8 @@ public class Engine {
         processInput();
         processGravity();
         lineWasCleared = processClearedLines();
+        if (lineWasCleared) {lineClearCounter = attrs.lineAre();}
+        // some delay here if lines were cleared
     }
    
     /** @return the well associated to this board. */
