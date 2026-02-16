@@ -1,6 +1,7 @@
 package com.gamewerks.bgm.engine;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.gamewerks.bgm.util.Constants;
 import com.gamewerks.bgm.util.Position;
@@ -19,6 +20,7 @@ public class Engine {
     private int lineClearCounter;
     private int lockCounter;
     private int entryCounter;
+    private int currentIndex;
     private boolean lineWasCleared;
     private boolean isSoftDropping;
     private boolean isHardDropping;
@@ -37,6 +39,24 @@ public class Engine {
         trySpawnBlock();
     }
 
+    private void shuffle (PieceKind[] pieceArray) {
+        PieceKind temp;
+        for (int i = 0; i < pieceArray.length; i++) {
+            int j = ThreadLocalRandom.current().nextInt(pieceArray.length - 1);
+            temp = pieceArray[i];
+            pieceArray[i] = pieceArray[j];
+            pieceArray[j] = temp;
+        }
+    }
+
+    private PieceKind randomPiece (PieceKind[] pieceArray) {
+        if (currentIndex == pieceArray.length - 1) {
+            shuffle(pieceArray);
+            currentIndex = 0;
+        }
+        return pieceArray[currentIndex++];
+    }
+
     /**
      * Tries to spawn a block at the center-top of the well. Only does so if
      * there is no currently active piece. The game ends if spawning the block
@@ -48,7 +68,7 @@ public class Engine {
                 entryCounter += 1;
                 if (lineClearCounter > 0) {lineClearCounter--;}
             } else {
-                activePiece = new Piece(PieceKind.I,
+                activePiece = new Piece(randomPiece(PieceKind.ALL),
                         new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
                 entryCounter = 0;
                 lineWasCleared = false;
@@ -181,7 +201,6 @@ public class Engine {
         processGravity();
         lineWasCleared = processClearedLines();
         if (lineWasCleared) {lineClearCounter = attrs.lineAre();}
-        // some delay here if lines were cleared
     }
    
     /** @return the well associated to this board. */

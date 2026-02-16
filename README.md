@@ -2,14 +2,19 @@
 
 ## About
 
-_(TODO: insert a description of the project here!)_
+
 
 ### Authors
 
-*   _(TODO: insert your names here!)_
-*  ...
+*  Carrie Anne Little
+*  Eva Kapoor
 
 ### Resources
 
-*   _(TODO: list your resources here!)_
-*   ...
+*   Project page:
+*   VSCode
+*   TetrisWiki page for Tetris The Grandmaster (series): https://tetris.wiki/Tetris_The_Grand_Master_(series)
+*   TetrisWiki page for ARE: https://tetris.wiki/ARE
+*   TetrisWiki page for lock delay: https://tetris.wiki/Lock_delay
+*   Documentation for ThreadLocalRandom: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadLocalRandom.html
+*   Wikipedia page for Fisher-Yates shuffle: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
