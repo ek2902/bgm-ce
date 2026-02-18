@@ -39,7 +39,7 @@ public class Engine {
         trySpawnBlock();
     }
 
-    private void shuffle (PieceKind[] pieceArray) {
+    private void shuffle(PieceKind[] pieceArray) {
         PieceKind temp;
         for (int i = 0; i < pieceArray.length; i++) {
             int j = ThreadLocalRandom.current().nextInt(pieceArray.length - 1);
@@ -49,7 +49,7 @@ public class Engine {
         }
     }
 
-    private PieceKind randomPiece (PieceKind[] pieceArray) {
+    private PieceKind randomPiece(PieceKind[] pieceArray) {
         if (currentIndex == pieceArray.length - 1) {
             shuffle(pieceArray);
             currentIndex = 0;
@@ -66,7 +66,9 @@ public class Engine {
         if (activePiece == null) {
             if (entryCounter < attrs.are() || lineClearCounter > 0) {
                 entryCounter += 1;
-                if (lineClearCounter > 0) {lineClearCounter--;}
+                if (lineClearCounter > 0) {
+                    lineClearCounter--;
+                }
             } else {
                 activePiece = new Piece(randomPiece(PieceKind.ALL),
                         new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
@@ -200,7 +202,9 @@ public class Engine {
         processInput();
         processGravity();
         lineWasCleared = processClearedLines();
-        if (lineWasCleared) {lineClearCounter = attrs.lineAre();}
+        if (lineWasCleared) {
+            lineClearCounter = attrs.lineAre();
+        }
     }
    
     /** @return the well associated to this board. */
